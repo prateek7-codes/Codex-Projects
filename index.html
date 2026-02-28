@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kanso Habit Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <p class="kicker">簡素 · Kanso</p>
+          <h1>Habit Tracker</h1>
+        </div>
+        <div class="topbar-actions">
+          <p id="today-label" class="muted"></p>
+          <button id="theme-toggle" class="ghost" type="button" aria-label="Toggle theme">🌙 Yoru</button>
+        </div>
+      </header>
+
+      <section class="panel">
+        <form id="habit-form" class="habit-form">
+          <label class="sr-only" for="habit-input">New habit</label>
+          <input id="habit-input" type="text" maxlength="90" placeholder="Add habit (e.g., Tea ceremony practice)" required />
+          <button type="submit">Add habit</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Track today</h2>
+          <button id="clear-completed" class="ghost" type="button">Clear completed today</button>
+        </div>
+        <ul id="habit-list" class="habit-list"></ul>
+        <p id="empty-state" class="muted">No habits yet. Add one to begin your daily ritual.</p>
+      </section>
+
+      <section class="panel" aria-label="Habit calendar">
+        <div class="panel-header">
+          <h2>Calendar (last 30 days)</h2>
+          <p id="calendar-month-label" class="muted"></p>
+        </div>
+        <div class="calendar-legend">
+          <span><i class="swatch swatch-none"></i> Quiet day</span>
+          <span><i class="swatch swatch-some"></i> Partial practice</span>
+          <span><i class="swatch swatch-all"></i> Full completion</span>
+        </div>
+        <div id="calendar-grid" class="calendar-grid" role="list"></div>
+      </section>
+
+      <section class="stats-grid" aria-label="System stats">
+        <article class="stat"><span class="muted">Habits</span><strong id="total-habits">0</strong></article>
+        <article class="stat"><span class="muted">Done today</span><strong id="done-today">0</strong></article>
+        <article class="stat"><span class="muted">Completion</span><strong id="completion-rate">0%</strong></article>
+        <article class="stat"><span class="muted">Best streak</span><strong id="best-streak">0 days</strong></article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
