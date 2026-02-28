@@ -1,6 +1,6 @@
-# Kanso Habit Tracker
+# Minimal Habit Tracker
 
-A Japanese minimalism-inspired habit tracker built with plain HTML, CSS, and JavaScript.
+A Japanese minimal-style habit tracker (English UI) built with plain HTML, CSS, and JavaScript.
 
 ## Features
 
@@ -10,7 +10,7 @@ A Japanese minimalism-inspired habit tracker built with plain HTML, CSS, and Jav
 - Last 7-day completion count per habit
 - Dashboard stats: habits, done today, completion %, best streak
 - 30-day calendar heatmap-style view
-- Japanese-inspired dual themes (Yoru dark / Hikari light)
+- Dual themes (Dark / Light)
 - Persistent local storage (`localStorage`)
 
 ## Run locally

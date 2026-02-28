@@ -164,7 +164,7 @@ function applyTheme(theme) {
   const selectedTheme = theme === "light" ? "light" : "dark";
   document.body.dataset.theme = selectedTheme;
   const isLight = selectedTheme === "light";
-  themeToggleButton.textContent = isLight ? "☀️ Hikari" : "🌙 Yoru";
+  themeToggleButton.textContent = isLight ? "☀️ Light" : "🌙 Dark";
   themeToggleButton.setAttribute("aria-pressed", isLight ? "true" : "false");
 }
 
