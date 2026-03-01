@@ -9,7 +9,7 @@ A Japanese minimal-style habit tracker (English UI) built with plain HTML, CSS, 
 - Current streak per habit
 - Last 7-day completion count per habit
 - Dashboard stats: habits, done today, completion %, best streak
-- 30-day calendar heatmap-style view
+- Rolling 7-day calendar heatmap-style view with a clear "today" indicator
 - Dual themes (Dark / Light)
 - Persistent local storage (`localStorage`)
 

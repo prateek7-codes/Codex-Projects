@@ -18,11 +18,11 @@
         </div>
         <div class="topbar-actions">
           <p id="today-label" class="muted"></p>
-          <button id="theme-toggle" class="ghost" type="button" aria-label="Toggle theme">🌙 Dark</button>
+          <button id="theme-toggle" class="ghost" type="button" aria-label="Toggle theme" aria-pressed="false">🌙 Dark</button>
         </div>
       </header>
 
-      <section class="panel">
+      <section class="panel elevated">
         <form id="habit-form" class="habit-form">
           <label class="sr-only" for="habit-input">New habit</label>
           <input id="habit-input" type="text" maxlength="90" placeholder="Add habit (e.g., Tea ceremony practice)" required />
@@ -41,7 +41,7 @@
 
       <section class="panel" aria-label="Habit calendar">
         <div class="panel-header">
-          <h2>Calendar (last 30 days)</h2>
+          <h2>Calendar (last 7 days)</h2>
           <p id="calendar-month-label" class="muted"></p>
         </div>
         <div class="calendar-legend">
@@ -49,10 +49,10 @@
           <span><i class="swatch swatch-some"></i> Partial practice</span>
           <span><i class="swatch swatch-all"></i> Full completion</span>
         </div>
-        <div id="calendar-grid" class="calendar-grid" role="list"></div>
+        <div id="calendar-grid" class="calendar-grid" role="list" aria-label="Rolling 7-day completion view"></div>
       </section>
 
-      <section class="stats-grid" aria-label="System stats">
+      <section class="stats-grid" aria-label="System stats" aria-live="polite" aria-atomic="true">
         <article class="stat"><span class="muted">Habits</span><strong id="total-habits">0</strong></article>
         <article class="stat"><span class="muted">Done today</span><strong id="done-today">0</strong></article>
         <article class="stat"><span class="muted">Completion</span><strong id="completion-rate">0%</strong></article>

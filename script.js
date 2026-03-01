@@ -48,7 +48,9 @@ form.addEventListener("submit", (event) => {
 
 clearCompletedButton.addEventListener("click", () => {
   const key = dateKey(0);
-  habits = habits.filter((habit) => !habit.history[key]);
+  habits.forEach((habit) => {
+    delete habit.history[key];
+  });
   saveHabits();
   render();
 });
@@ -125,28 +127,45 @@ function render() {
   empty.hidden = total > 0;
   clearCompletedButton.disabled = completed === 0;
 
-  renderCalendar(30);
+  renderCalendar(7);
 }
 
 function renderCalendar(days) {
   calendarGrid.innerHTML = "";
   const now = new Date();
-  calendarMonthLabel.textContent = now.toLocaleDateString(undefined, {
-    month: "long",
+  const start = shiftDate(new Date(now), -(days - 1));
+  calendarMonthLabel.textContent = `${start.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+  })} - ${now.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
     year: "numeric",
-  });
+  })}`;
+
+  const today = dateKeyFromDate(now);
 
   for (let i = days - 1; i >= 0; i -= 1) {
-    const key = dateKey(i);
+    const day = shiftDate(new Date(now), -i);
+    const key = dateKeyFromDate(day);
     const completionCount = habits.reduce((count, habit) => count + (habit.history[key] ? 1 : 0), 0);
     const total = habits.length;
     const level = total === 0 || completionCount === 0 ? "none" : completionCount === total ? "all" : "some";
+    const isToday = key === today;
 
-    const day = new Date(key);
     const cell = document.createElement("div");
-    cell.className = "calendar-day";
+    cell.className = `calendar-day ${isToday ? "is-today" : ""}`;
     cell.dataset.level = level;
     cell.setAttribute("role", "listitem");
+
+    const longDate = day.toLocaleDateString(undefined, {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    const stateLabel = level === "all" ? "all habits completed" : level === "some" ? "some habits completed" : "no habits completed";
+    cell.setAttribute("aria-label", `${longDate}. ${completionCount} of ${total} habits complete, ${stateLabel}${isToday ? ". Today" : ""}.`);
     cell.title = `${day.toLocaleDateString(undefined, { month: "short", day: "numeric" })}: ${completionCount}/${total} habits complete`;
 
     const number = document.createElement("strong");
@@ -156,6 +175,14 @@ function renderCalendar(days) {
     label.textContent = `${completionCount}/${total}`;
 
     cell.append(number, label);
+
+    if (isToday) {
+      const todayDot = document.createElement("span");
+      todayDot.className = "today-dot";
+      todayDot.setAttribute("aria-hidden", "true");
+      cell.append(todayDot);
+    }
+
     calendarGrid.append(cell);
   }
 }
@@ -179,8 +206,20 @@ function loadTheme() {
 function dateKey(daysBack) {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
-  date.setDate(date.getDate() - daysBack);
-  return date.toISOString().slice(0, 10);
+  shiftDate(date, -daysBack);
+  return dateKeyFromDate(date);
+}
+
+function dateKeyFromDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function shiftDate(date, offset) {
+  date.setDate(date.getDate() + offset);
+  return date;
 }
 
 function currentStreak(history) {
@@ -204,8 +243,9 @@ function weeklyCompletion(history) {
 function loadHabits() {
   const keys = [STORAGE_KEY, "habit-system.v2"];
   for (const key of keys) {
-    const loaded = parseHabits(localStorage.getItem(key));
-    if (loaded.length > 0) {
+    const raw = localStorage.getItem(key);
+    if (raw !== null) {
+      const loaded = parseHabits(raw);
       if (key !== STORAGE_KEY) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(loaded));
       }
